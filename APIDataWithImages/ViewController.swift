@@ -12,7 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet weak var tableView: UITableView!
     
-    var heroes = [HeroStats]()
+    var items = [ItemInfo]()
     
     
     override func viewDidLoad() {
@@ -29,12 +29,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return heroes.count
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = heroes[indexPath.row].localized_name.capitalized
+        cell.textLabel?.text = items[indexPath.row].name.capitalized
         return cell
     }
     
@@ -44,26 +44,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? HeroViewController {
-            destination.hero = heroes[(tableView.indexPathForSelectedRow?.row)!]
+            destination.item = items[(tableView.indexPathForSelectedRow?.row)!]
         }
     }
 
     
     func downloadJSON(completed: @escaping () -> ()) {
         
-        let url = URL(string: "https://api.opendota.com/api/heroStats")
+        let url = URL(string: "https://services.runescape.com/m=itemdb_rs/api/catalogue/items.json?category=10&alpha=c&page=1")
         
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
          
             if error == nil {
                 do {
-                    self.heroes = try JSONDecoder().decode([HeroStats].self, from: data!)
+                   let downloadedItems = try JSONDecoder().decode(Items.self, from: data!)
+                    self.items = downloadedItems.items
+                
                     DispatchQueue.main.async {
                         completed()
                     }
                     
                 }catch {
-                    print("JSON Error")
+                    print(error)
                 }
             }
         }.resume()

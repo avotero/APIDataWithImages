@@ -36,17 +36,17 @@ class HeroViewController: UIViewController {
     @IBOutlet weak var attackLabel: UILabel!
     @IBOutlet weak var legsLabel: UILabel!
     
-    var hero: HeroStats?
+    var item: ItemInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        nameLabel.text = hero?.localized_name
-        attributeLabel.text = hero?.primary_attr
-        attackLabel.text = hero?.attack_type
-        legsLabel.text = "\((hero?.legs)!)"
+        nameLabel.text = item?.name
+        attributeLabel.text = item?.type
+        attackLabel.text = item?.description
+        legsLabel.text = "\((item?.id)!)"
         
-        let urlString = "https://api.opendota.com"+(hero?.img)!
+        let urlString = "\((item?.icon)!)"
         let url = URL(string: urlString)
         imageView.downloaded(from: url!)
     }
