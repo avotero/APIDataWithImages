@@ -8,33 +8,39 @@
 
 import Foundation
 
-/*struct HeroStats: Decodable {
-    let localized_name: String
-    let primary_attr: String
-    let attack_type: String
-    let legs: Int
-    let img: String
-}*/
-
-class Items: Codable {
-    let items: [ItemInfo]
+class ItemInfo: Codable {
+    let items: [Items]
     
-    init(items: [ItemInfo]) {
+    init(items: [Items]) {
         self.items = items
     }
 }
 
-class ItemInfo: Codable {
-    let name, description, type, icon: String
+class Items: Codable {
+    let name, description, type, icon, icon_large: String
     let id: Int
+    let current: Current?
+    let members: String?
     
-    init(name: String, description: String, id: Int, type: String, icon: String)  {
+    
+    init(name: String, description: String, id: Int, type: String, icon: String, icon_large: String, current: Current?, members: String)  {
         self.name = name
         self.description = description
         self.id = id
         self.type = type
         self.icon = icon
-        
+        self.icon_large = icon_large
+        self.current = current
+        self.members = members
+        }
+}
+
+class Current: Codable {
+    let trend: String
+    let price: String? = nil
+    
+    init(trend:String) {
+        self.trend = trend
     }
 }
 

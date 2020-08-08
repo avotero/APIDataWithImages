@@ -12,12 +12,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet weak var tableView: UITableView!
     
-    var items = [ItemInfo]()
     
+    var items = [Items]()
+    var item: Items?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         
         downloadJSON {
             self.tableView.reloadData()
@@ -38,11 +39,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetails", sender: self)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destination = segue.destination as? HeroViewController {
             destination.item = items[(tableView.indexPathForSelectedRow?.row)!]
         }
@@ -57,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
          
             if error == nil {
                 do {
-                   let downloadedItems = try JSONDecoder().decode(Items.self, from: data!)
+                   let downloadedItems = try JSONDecoder().decode(ItemInfo.self, from: data!)
                     self.items = downloadedItems.items
                 
                     DispatchQueue.main.async {

@@ -33,20 +33,21 @@ class HeroViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var attributeLabel: UILabel!
-    @IBOutlet weak var attackLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     @IBOutlet weak var legsLabel: UILabel!
     
-    var item: ItemInfo?
+    var item: Items?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         nameLabel.text = item?.name
         attributeLabel.text = item?.type
-        attackLabel.text = item?.description
+        descriptionLabel.text = item?.description
         legsLabel.text = "\((item?.id)!)"
         
-        let urlString = "\((item?.icon)!)"
+        let urlString = "\((item?.icon_large)!)"
         let url = URL(string: urlString)
         imageView.downloaded(from: url!)
     }
